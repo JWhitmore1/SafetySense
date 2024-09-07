@@ -18,7 +18,7 @@ BLECharacteristic *pCharacteristic;
 void setup_ble() {
   Serial.println("---- Starting BLE Server ----");
   // device name
-  BLEDevice::init("ESP32");
+  BLEDevice::init("SafetySense");
   BLEServer *pServer = BLEDevice::createServer();
   BLEService *pService = pServer->createService(SERVICE_UUID);
   pCharacteristic = pService->createCharacteristic(
