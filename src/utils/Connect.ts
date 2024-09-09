@@ -77,7 +77,6 @@ export const connectDevice = (deviceId: string): Promise<boolean> => {
           const deviceSupportedCharacteristics = (peripheralInformation.characteristics || []).map(_char =>
             _char.characteristic.toUpperCase(),
           );
-          console.log(deviceSupportedCharacteristics);
 
           if (
             !deviceSupportedServices.includes(serviceUUID.toUpperCase()) ||
