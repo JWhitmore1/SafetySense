@@ -11,5 +11,5 @@ AppRegistry.registerComponent(appName, () => App);
 
 BleManager.start({ showAlert: false }).then(() => {
   // Success code
-  console.log("BleManager initialized");
+  // console.log("BleManager initialized");
 });
