@@ -15,11 +15,22 @@ DHT_Async dht_sensor(DHT_SENSOR_PIN, DHT_SENSOR_TYPE);
 
 BLECharacteristic *pCharacteristic;
 
+class ServerCallbacks: public BLEServerCallbacks {
+    void onConnect(BLEServer* pServer) {
+      pServer->startAdvertising(); // restart advertising
+    };
+
+    void onDisconnect(BLEServer* pServer) {
+      pServer->startAdvertising(); // restart advertising
+    }
+};
+
 void setup_ble() {
   Serial.println("---- Starting BLE Server ----");
   // device name
   BLEDevice::init("SafetySense");
   BLEServer *pServer = BLEDevice::createServer();
+  pServer->setCallbacks(new ServerCallbacks()); //set the callback function
   BLEService *pService = pServer->createService(SERVICE_UUID);
   pCharacteristic = pService->createCharacteristic(
                                          CHARACTERISTIC_UUID,
@@ -27,7 +38,7 @@ void setup_ble() {
                                          BLECharacteristic::PROPERTY_WRITE
                                        );
 
-  pCharacteristic->setValue("Test Value");
+  pCharacteristic->setValue("No Data");
   pService->start();
 
   // BLE server broadcast
@@ -75,12 +86,10 @@ void loop() {
     if (fetch_temp(&temperature, &humidity)) {
         Serial.print("T = ");
         Serial.print(temperature, 1);
-        Serial.print(" deg. C, H = ");
-        Serial.print(humidity, 1);
-        Serial.println("%");   
+        Serial.println(" deg. C");  
     }
 
     // update server 
-    pCharacteristic->setValue(String(temperature) + "," + String(humidity));
+    pCharacteristic->setValue(String(temperature));
     delay(5 * 1000); // 5 seconds
 }
