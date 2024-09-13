@@ -1,13 +1,14 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { useBleServer } from '../utils/useBleData';
+import { DataCircle } from '../components/DataCircle';
 
 const style = StyleSheet.create({
   title: {
     width: "100%",
     fontSize: 32,
     textAlign: "center",
-    color: "#fff",
+    color: "#000",
     paddingTop: 50,
   }
 })
@@ -23,6 +24,8 @@ const App = () => {
       ) : (
         <Text style={style.title}>Loading...</Text>
       )}
+      <Text style={style.title}>Data Circle Component:</Text>
+      <DataCircle title='Temp' value={24.8} maxValue={35} threshold={30} />
     </View>
   );
 }

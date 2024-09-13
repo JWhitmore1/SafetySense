@@ -3,7 +3,7 @@ import { scanDevices } from '../utils/Scan';
 import { connectDevice } from '../utils/Connect';
 import BleManager, { Peripheral } from 'react-native-ble-manager';
 
-const MOCK_SERVER = false;
+const MOCK_SERVER = true;
 
 const READ_INTERVAL = 5_000; //time between value reads in ms
 const DEVICE_NAME = "SafetySense"
