@@ -10,12 +10,19 @@ type DataCircleProps = {
 }
 
 const style = StyleSheet.create({
+  container: {
+    width: 190,
+    borderWidth: 1,
+    borderColor: "#000",
+    borderRadius: 20,
+  },
   title: {
     textAlign: "center",
     width: "100%",
-
+    fontSize: 20,
+    padding: 20
   },
-  textContainer: {
+  valueContainer: {
     display: "flex",
     height: "100%",
     justifyContent: "center",
@@ -30,22 +37,24 @@ const style = StyleSheet.create({
 })
 
 export const DataCircle = ({title, value, maxValue, threshold}: DataCircleProps) => {
-  const railColour = "#ededed";
-  const progressColour = "#6cf4b4";
+  const railColour = "#ededed"
+  const progressColour = value < threshold ? "#6cf4b4" : "#FF0303";
+  const thresholdColour = "#818181";
 
   const r = 83;
   const circ = 2 * Math.PI * r;
   const percentage = ( value / maxValue ) * 100;
   const strokePct = ((100 - percentage) * circ) / 100; 
-  // where stroke will start, e.g. from 15% to 100%.
+  
+  const thresholdPct = (threshold / maxValue) * 360; 
 
   return (
-    <View>
+    <View style={style.container}>
       <Text style={style.title}>{title}</Text>
       <View>
         <Svg 
-          width="166" 
-          height="166" 
+          width="190" 
+          height="190" 
           viewBox="-20.75 -20.75 207.5 207.5"
         >
           <G transform={`rotate(-90 ${r} ${r})`}>
@@ -72,8 +81,20 @@ export const DataCircle = ({title, value, maxValue, threshold}: DataCircleProps)
               fill="transparent" 
               strokeDasharray={circ}
             />
+            {/* threshold marker */}
+            <Circle 
+              r={r} 
+              cx={r} 
+              cy={r} 
+              stroke={thresholdColour}
+              fill="transparent"
+              strokeWidth="32" 
+              strokeDasharray={circ}
+              strokeDashoffset="526"
+              transform={`rotate(${thresholdPct} ${r} ${r})`}
+            />
           </G>
-          <View style={style.textContainer}>
+          <View style={style.valueContainer}>
             <Text style={style.tempValue}>{value}</Text>
           </View>
         </Svg>

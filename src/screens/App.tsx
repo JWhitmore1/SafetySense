@@ -24,8 +24,7 @@ const App = () => {
       ) : (
         <Text style={style.title}>Loading...</Text>
       )}
-      <Text style={style.title}>Data Circle Component:</Text>
-      <DataCircle title='Temp' value={24.8} maxValue={35} threshold={30} />
+      <DataCircle title='Temperature' value={25} maxValue={35} threshold={30} />
     </View>
   );
 }
