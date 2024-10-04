@@ -11,16 +11,17 @@ type DataCircleProps = {
 
 const style = StyleSheet.create({
   container: {
-    width: 190,
+    width: "45%",
     borderWidth: 1,
     borderColor: "#000",
     borderRadius: 20,
+    marginBottom: 10,
   },
   title: {
     textAlign: "center",
     width: "100%",
     fontSize: 20,
-    padding: 20
+    padding: 10
   },
   valueContainer: {
     display: "flex",
@@ -30,7 +31,7 @@ const style = StyleSheet.create({
   },
   tempValue: {
     width: "100%",
-    fontSize: 42,
+    fontSize: 38,
     textAlign: "center",
     color: "#000"
   }
@@ -53,8 +54,8 @@ export const DataCircle = ({title, value, maxValue, threshold}: DataCircleProps)
       <Text style={style.title}>{title}</Text>
       <View>
         <Svg 
-          width="190" 
-          height="190" 
+          width={r*2} 
+          height={r*2}
           viewBox="-20.75 -20.75 207.5 207.5"
         >
           <G transform={`rotate(-90 ${r} ${r})`}>
@@ -88,9 +89,9 @@ export const DataCircle = ({title, value, maxValue, threshold}: DataCircleProps)
               cy={r} 
               stroke={thresholdColour}
               fill="transparent"
-              strokeWidth="32" 
+              strokeWidth="30" 
               strokeDasharray={circ}
-              strokeDashoffset="526"
+              strokeDashoffset={r*6.22}
               transform={`rotate(${thresholdPct} ${r} ${r})`}
             />
           </G>

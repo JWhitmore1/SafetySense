@@ -3,8 +3,6 @@ import { scanDevices } from '../utils/Scan';
 import { connectDevice } from '../utils/Connect';
 import BleManager, { Peripheral } from 'react-native-ble-manager';
 
-const MOCK_SERVER = true;
-
 const READ_INTERVAL = 5_000; //time between value reads in ms
 const DEVICE_NAME = "SafetySense"
 const SERVICE_UUID = '8b712be9-e6cd-4356-b703-beca1b406f5c';
@@ -18,7 +16,7 @@ const byteArrayToString = (array: number[]) => {
   return result;
 }
 
-export const useBleServer = () => {
+export const useBleServer = (mockData: boolean) => {
   const peripheralUUID = useRef<string>('5778f008-5ad3-d8d1-01b1-59baf2a6cafb');
   const isConnected = useRef(false);
   const [peripherals, setPeripherals] = useState<Map<string, Peripheral>>();
@@ -68,8 +66,13 @@ export const useBleServer = () => {
     }
   }, [peripherals]);
 
-  if(MOCK_SERVER) {
-    return { isConnected: { current: true }, temperature: 26.50, noiseLevel: 70 }
+  if(mockData) {
+    return { 
+      isConnected: { current: true }, 
+      temperature: '26.50', 
+      noiseLevel: '78.9', 
+      airQuality: '25', 
+      uvIndex: '2' }
   }
 
   return { isConnected, temperature: temp };
