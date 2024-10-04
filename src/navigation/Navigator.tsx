@@ -18,7 +18,7 @@ const TabIcon = ({focused, icon, label}: TabIconProps) => {
         alignItems: 'center',
         justifyContent: 'center',
         height: 60,
-        width: 60,
+        width: 80,
         marginBottom: 5,
         backgroundColor: focused ? '#e0e0e0' : 'transparent',
       }}>
@@ -28,7 +28,6 @@ const TabIcon = ({focused, icon, label}: TabIconProps) => {
         style={{
           width: 24,
           height: 24,
-          tintColor: 'black',
         }}
       />
       <Text style={{fontSize: 12, color: 'black', marginTop: 4}}>{label}</Text>
@@ -41,10 +40,6 @@ const tabOptions = (icon: ImageSourcePropType, label: string) => {
     tabBarIcon: ({focused}: {focused: boolean}) => (
       <TabIcon focused={focused} icon={icon} label={label} />
     ),
-    headerStyle: {
-      height: 50,
-      backgroundColor: '#f0f0f0',
-    },
     headerTitleStyle: {
       fontSize: 18,
       color: 'black',

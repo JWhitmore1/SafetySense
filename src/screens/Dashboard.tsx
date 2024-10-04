@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, Switch } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import { useBleServer } from '../hooks/useBleData';
 import { DataCircle } from '../components/DataCircle';
 
@@ -7,6 +7,7 @@ const style = StyleSheet.create({
   mainContainer: {
     backgroundColor: "#FFF",
     color: "#000",
+    height: "100%",
   },
   title: {
     width: "100%",
