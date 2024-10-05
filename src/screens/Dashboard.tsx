@@ -1,7 +1,13 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, Image } from 'react-native';
 import { useBleServer } from '../hooks/useBleData';
 import { DataCircle } from '../components/DataCircle';
+import icons from '../data/icons';
+
+/**
+ * TODO: use jsonfile package to store and read thresholds
+ * then foreach over each threshold to find warnings
+ */
 
 const style = StyleSheet.create({
   mainContainer: {
@@ -10,12 +16,9 @@ const style = StyleSheet.create({
     height: "100%",
   },
   title: {
-    width: "100%",
     fontSize: 32,
     textAlign: "center",
     color: "#000",
-    paddingTop: 50,
-    paddingBottom: 50,
   },
   dialContainer: {
     display: "flex",
@@ -23,7 +26,15 @@ const style = StyleSheet.create({
     flexWrap: "wrap",
     justifyContent: "space-around",
     alignContent: "space-around",
+  },
+  titleContainer: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    height: 120,
   }
+  
 })
 
 const Dashboard = () => {
@@ -31,7 +42,16 @@ const Dashboard = () => {
 
   return (
     <View style={style.mainContainer}>
-      <Text style={style.title}> Safe </Text>
+      <View style={style.titleContainer}>
+        <Image 
+          source={icons.check}  
+          style={{
+            width: 35,
+            height: 35,
+          }}
+        />
+        <Text style={style.title}> Safe </Text>
+      </View>
       <View style={style.dialContainer}>
         <DataCircle title='Temperature' value={parseFloat(temperature ?? '0')} maxValue={35} threshold={30} />
         <DataCircle title='Noise Level' value={parseFloat(noiseLevel ?? '0')} maxValue={130} threshold={110} />
