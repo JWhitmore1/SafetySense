@@ -10,11 +10,11 @@
 static const int DHT_SENSOR_PIN = 23;
 DHT_Async dht_sensor(DHT_SENSOR_PIN, DHT_SENSOR_TYPE);
 
-// Sound Sensor
+// Other Peripherals pins
 static const int SOUND_SENSOR_PIN = 34;
-
-// buzzer
+static const int GAS_SENSOR_PIN = 33;
 static const int BUZZER_PIN = 22;
+static const int LED_PIN = 32;
 
 // BLE Server Setup's
 #define SERVICE_UUID        "8b712be9-e6cd-4356-b703-beca1b406f5c"
@@ -61,6 +61,7 @@ void setup() {
     Serial.begin(115200);
     setup_ble();
     pinMode(BUZZER_PIN, OUTPUT);
+    pinMode(LED_PIN, OUTPUT);
 }
 
 
@@ -87,35 +88,50 @@ int alarmFreq = 550;
 
 int soundVoltage;
 int largestSoundVoltage;
-int soundSensitivity = 43;
+int soundSensitivity = 38;
 float dbRef = 26.3;
 float vRef = 884;
 float db;
 
+int gasVoltage;
+
 float temperature;
 float humidity;
+
+void alarmBeep() {
+  if (alarmOn) {
+    if (toneOn) {
+      noTone(BUZZER_PIN);
+      digitalWrite(LED_PIN, LOW);
+      toneOn = false;
+    } else {
+      tone(BUZZER_PIN, alarmFreq);
+      digitalWrite(LED_PIN, HIGH);
+      toneOn = true;
+    }
+  } else {
+    if (toneOn) {
+      noTone(BUZZER_PIN);
+      digitalWrite(LED_PIN, LOW);
+      toneOn = false;
+    } 
+  }
+}
+
 /*
  * Main program loop.
  */
 void loop() {
   mainCounter++;
 
-  if (mainCounter % 50 == 0) {
-    // every 1000 loops (~1 Second)
-    if (alarmOn) {
-      if (toneOn) {
-        noTone(BUZZER_PIN);
-        toneOn = false;
-      } else {
-        tone(BUZZER_PIN, alarmFreq);
-        toneOn = true;
-      }
-    } else {
-      if (toneOn) {
-        noTone(BUZZER_PIN);
-        toneOn = false;
-      } 
-    }
+  if (mainCounter % 100 == 0) {
+    alarmBeep();
+  }
+
+  if (mainCounter % 2000 == 0) {
+    // every 2000 loops (~2 seconds)
+    // get gas sensor reading 
+    gasVoltage = analogRead(GAS_SENSOR_PIN);
   }
   
   // get sound voltage
@@ -124,20 +140,12 @@ void loop() {
     largestSoundVoltage = soundVoltage;
   }
 
-  if (mainCounter % 2000 == 0) {
-    // every 2000 loops (~2s)
+  if (mainCounter % 5000 == 0) {
+    // every 5000 loops (~5 seconds)
     db = dbRef + (soundSensitivity * (20 * log10((largestSoundVoltage / vRef))));
     Serial.print(db);
     Serial.println(" dB");
     largestSoundVoltage = 0;
-
-    if (db > 110) {
-      alarmOn = true;
-    }
-  }
-
-  if (mainCounter % 5000 == 0) {
-    // every 5000 loops (~5 seconds)
       
     /* Measure temperature and humidity.  If the functions returns
     true, then a measurement is available. */
@@ -146,8 +154,14 @@ void loop() {
         Serial.println(" °C");  
     }
 
+    Serial.println(gasVoltage);
+
+    if (db > 110 || temperature > 35 || gasVoltage > 1400) {
+      alarmOn = true;
+    }
+
     // update server 
-    pCharacteristic->setValue(String(temperature) + "," + String(db));
+    pCharacteristic->setValue(String(temperature) + "," + String(db) + "," + String(gasVoltage));
   }
 
   // reset counter every 10000 loops (~10s)
