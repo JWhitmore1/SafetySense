@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { scanDevices } from '../utils/Scan';
 import { connectDevice } from '../utils/Connect';
 import BleManager, { Peripheral } from 'react-native-ble-manager';
+import { ServerData } from '../data/ServerData';
 
 const READ_INTERVAL = 5_000; //time between value reads in ms
 const DEVICE_NAME = "SafetySense"
@@ -16,49 +17,66 @@ const byteArrayToString = (array: number[]) => {
   return result;
 }
 
-export const useBleServer = (mockData: boolean) => {
+export const useBleServer = (mockData: boolean) : ServerData => {
   const peripheralUUID = useRef<string>('5778f008-5ad3-d8d1-01b1-59baf2a6cafb');
-  const isConnected = useRef(false);
+  const [isConnected, setIsConnected] = useState<boolean>(false);
+  const [dataAvailable, setDataAvailable] = useState<boolean>(false);
   const [peripherals, setPeripherals] = useState<Map<string, Peripheral>>();
-  const [temp, setTemp] = useState<string>('');
+  const [temp, setTemp] = useState<number>(0);
+  const [noise, setNoise] = useState<number>(0);
+  const [air, setAir] = useState<number>(0);
 
-  const readTempValue = async () => {
+  const isDeviceConnected = async () => {
+    return await BleManager.isPeripheralConnected(peripheralUUID.current, []);
+  }
+
+  const queryServer = async () => {
     // console.log('reading value from server');
-    if(isConnected.current) {
+    isDeviceConnected().then((value) => {
+      setIsConnected(value);
+    })
+
+    if(isConnected) {
       const data = await BleManager.read(peripheralUUID.current, SERVICE_UUID, CHARACTERISTIC_UUID)
         .catch(async (error) => {
           console.log('Error reading value: ' + error);
-          console.log((await BleManager.getConnectedPeripherals())[0].id);
+          setIsConnected(false);
         });
       if (data) {
-        const tempData = byteArrayToString(data);
-        console.log(tempData);
-        setTemp(tempData);
+        const dataString = byteArrayToString(data);
+        const splitData = dataString.split(',');
+
+        console.log("data: " + splitData);
+        
+        setTemp(parseFloat(splitData[0]));
+        setNoise(parseFloat(splitData[1]));
+        setAir(parseFloat(splitData[2]));
+        setDataAvailable(true);
       }
     }
   }
 
   useEffect(() => {
-    scanDevices([]).then((result)  => {
+    console.log('scanning for peripherals...')
+    scanDevices([]).then((result) => {
       setPeripherals(result);
     })
 
     const interval = setInterval(async () => {
-      readTempValue();
+      queryServer();
     }, READ_INTERVAL);
   
     return () => clearInterval(interval);
-  }, []);
+  }, [isConnected]);
 
   useEffect(() => {
     if (peripherals) {
       peripheralUUID.current = Array.from(peripherals.values())
         .find((peripheral) => peripheral.name = DEVICE_NAME)?.id ?? '';
       
-      if (!isConnected.current) {
-        // TODO: check if connected already.
+      if (!isConnected) {
         connectDevice(peripheralUUID.current).then((connected) => {
-          isConnected.current = connected;
+          setIsConnected(connected);
         }).catch((error) => {
           console.log("Error while connecting: " + error);
         });
@@ -68,13 +86,23 @@ export const useBleServer = (mockData: boolean) => {
 
   if(mockData) {
     return { 
-      isConnected: { current: true }, 
-      temperature: '26.50', 
-      noiseLevel: '78.9', 
-      airQuality: '25', 
-      uvIndex: '2' }
+      dataAvailable: true, 
+      data: {
+        temperature: 26.50, 
+        noiseLevel: 78.9, 
+        airQuality: 25, 
+        uvIndex: 2 
+      }
+    }
   }
 
-  return { isConnected, temperature: temp };
+  return { 
+    dataAvailable,
+    data: {
+      temperature: temp, 
+      noiseLevel: noise, 
+      airQuality: air 
+    } 
+  };
 }
 

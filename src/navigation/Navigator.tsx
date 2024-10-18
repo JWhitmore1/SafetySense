@@ -4,6 +4,8 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Dashboard from '../screens/Dashboard';
 import {NavigationContainer} from '@react-navigation/native';
 import icons from '../data/icons';
+import Detail from '../screens/Detail';
+import { SensorData } from '../data/ServerData';
 
 interface TabIconProps {
   focused: boolean;
@@ -69,7 +71,7 @@ const Navigator = () => {
         />
         <Tab.Screen
           name="Detail"
-          component={Dashboard}
+          component={Detail}
           options={() => tabOptions(icons.placeholder, 'Detail')}
         />
         <Tab.Screen
