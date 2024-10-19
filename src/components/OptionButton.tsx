@@ -32,7 +32,6 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     marginRight: 15,
-    backgroundColor: '#ddd',  // Placeholder for image background
   },
   text: {
     fontSize: 18,

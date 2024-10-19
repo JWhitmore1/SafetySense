@@ -5,6 +5,9 @@ import Dashboard from '../screens/Dashboard';
 import { NavigationContainer } from '@react-navigation/native';
 import icons from '../data/icons';
 import SettingsScreen from '../screens/Setting';
+import DetailScreen from '../screens/Detail';
+import MainScreen from '../screens/Mainscreen';
+
 interface TabIconProps {
   focused: boolean;
   icon: ImageSourcePropType;
@@ -69,13 +72,18 @@ const Navigator = () => {
         />
         <Tab.Screen
           name="Detail"
-          component={Dashboard}
+          component={DetailScreen}
           options={() => tabOptions(icons.detail, 'Detail')}
         />
         <Tab.Screen
           name="Settings"
           component={SettingsScreen}
           options={() => tabOptions(icons.setting, 'Settings')}
+        />
+      <Tab.Screen
+          name="MainScreen"
+          component={MainScreen}
+          options={{ tabBarButton: () => null }} // hide button
         />
       </Tab.Navigator>
     </NavigationContainer>
