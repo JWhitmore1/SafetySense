@@ -15,6 +15,8 @@ import sound from "../assets/icons/sound.png";
 import air from "../assets/icons/air.png";
 import uv from "../assets/icons/uv.png";
 import audio from "../assets/icons/audio.png";
+import hum from "../assets/icons/hum.png";
+
 
 
 export default {
@@ -34,5 +36,6 @@ export default {
   vibration,
   temperature,
   sound,
-  uv
+  uv,
+  hum,
 }

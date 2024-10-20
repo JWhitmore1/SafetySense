@@ -20,7 +20,7 @@ const DetailScreen = () => {
     { title: 'Temperature', imageSource: icons.temperature },
     { title: 'Air Quality', imageSource: icons.air },
     { title: 'Sound Level', imageSource: icons.sound },
-    { title: 'UV Index', imageSource: icons.uv },
+    { title: 'Humidity', imageSource: icons.hum },
   ];
 
   const handleNavigation = (selectedCategory: string) => {
@@ -40,12 +40,12 @@ const DetailScreen = () => {
         title = 'Sound Level';
         message = 'Sound levels are within a safe range.';
         break;
-      case 'UV Index':
-        title = 'UV Index';
-        message = 'High UV index today, remember to wear sunscreen!';
-        break;
-      default:
-        break;
+        case 'Humidity':
+          title = 'Humidity';
+          message = 'Humidity levels are high today. Stay hydrated!';
+          break;
+        default:
+          break;
     }
 
     navigation.navigate('MainScreen', { title, message, category: selectedCategory });

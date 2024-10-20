@@ -9,7 +9,6 @@ const SettingsScreen = () => {
   const [temperature, setTemperature] = useState('');
   const [soundNoise, setSoundNoise] = useState('');
   const [airQuality, setAirQuality] = useState('');
-  const [uv, setUv] = useState('');
 
   return (
     <View style={styles.container}>
@@ -72,20 +71,6 @@ const SettingsScreen = () => {
           onChangeText={setAirQuality}
         />
         <Text style={styles.unit}>AQI</Text> 
-
-      </View>
-
-      <View style={styles.inputRow}>
-        <Image source={icons.uv} style={styles.icon} />
-        <Text style={styles.label}>UV</Text>
-        <TextInput
-          style={styles.input}
-          keyboardType="numeric"
-          placeholder="Number"
-          value={uv}
-          onChangeText={setUv}
-        />
-        <Text style={styles.unit}>UVI</Text> 
 
       </View>
     </View>
