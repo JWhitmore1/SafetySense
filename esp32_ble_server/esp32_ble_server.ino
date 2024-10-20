@@ -116,7 +116,7 @@ void loop() {
 
   if (mainCounter % 2000 == 0) {
     db = dbRef + (soundSensitivity * (20 * log10((largestSoundVoltage / vRef))));
-    if (db < 38) db = 31.14;
+    if (db < 20) db = 20;
     if (db > 120) db = 120;
     largestSoundVoltage = 0;
 
@@ -125,7 +125,7 @@ void loop() {
 
     Serial.println(String(temperature) + "°c, " + String(db) + "db, " + String(gasVoltage));
 
-    if (booting && (db > 120 || temperature > 35 || gasVoltage > 1000)) {
+    if (!booting && (db > 120 || temperature > 35 || gasVoltage > 1000)) {
       alarmOn = true;
     }
 

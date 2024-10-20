@@ -50,5 +50,7 @@
 	<false/>
 	<key>NSBluetoothAlwaysUsageDescription</key>
 	<string>This app needs bluetooth to connect to your SafetySense device</string>
+	<key>NSUserNotificationsUsageDescription</key>
+	<string>This app needs to send notifications for critical warnings</string>
 </dict>
 </plist>

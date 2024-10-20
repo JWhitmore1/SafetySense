@@ -1,9 +1,8 @@
 import React from 'react';
-import { View, Text, Image, StyleSheet } from 'react-native';
-import Button from '../components/Button';
+import { View, Text, Image, StyleSheet, ActivityIndicator } from 'react-native';
 import icons from '../data/icons';
 
-const HomeScreen: React.FC = () => {
+const ConnectingScreen: React.FC = () => {
   return (
     <View style={styles.container}>
       {/* Welcome Text */}
@@ -19,13 +18,9 @@ const HomeScreen: React.FC = () => {
         resizeMode="contain"
       />
 
-      {/* Start Button */}
-      <Button 
-        title="Start" 
-        onPress={() => console.log('Start pressed')} 
-        style={styles.button} 
-        textStyle={{ fontSize: 20 }} 
-      />
+      <Text style={styles.subtitle}>Connecting to device...</Text>
+      <ActivityIndicator size="large" color="#64ab5b" />
+
     </View>
   );
 };
@@ -63,4 +58,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default HomeScreen;
+export default ConnectingScreen;

@@ -1,10 +1,10 @@
 import React from 'react';
-import { Text, View, StyleSheet } from 'react-native';
+import { Text, View, StyleSheet, ActivityIndicator } from 'react-native';
 import { Svg, Circle, G } from 'react-native-svg';
 
 type DataCircleProps = {
   title: string;
-  value: number;
+  value: number | undefined;
   maxValue: number;
   threshold: number;
 }
@@ -38,20 +38,40 @@ const style = StyleSheet.create({
 })
 
 export const DataCircle = ({title, value, maxValue, threshold}: DataCircleProps) => {
-  const railColour = "#ededed"
-  const progressColour = value < threshold ? "#6cf4b4" : "#FF0303";
-  const thresholdColour = "#818181";
-
   const r = 83;
+
+  if (value == undefined) {
+    return (
+      <View style={style.container}>
+        <Text style={style.title}>{title}</Text>
+        <View style={{
+          width: r*2, 
+          height: r*2,
+        }}>
+          <ActivityIndicator 
+            size="large" 
+            color="#64ab5b"
+          />
+        </View>
+      </View>
+    );
+  }
+
   const circ = 2 * Math.PI * r;
   const percentage = ( value / maxValue ) * 100;
   const strokePct = ((100 - percentage) * circ) / 100; 
   
   const thresholdPct = (threshold / maxValue) * 360; 
 
+  const railColour = "#ededed"
+  const progressColour = value < threshold ? "#6cf4b4" : "#FF0303";
+  const thresholdColour = "#818181";
+
   return (
     <View style={style.container}>
-      <Text style={style.title}>{title}</Text>
+      {title && 
+        <Text style={style.title}>{title}</Text>
+      }
       <View>
         <Svg 
           width={r*2} 

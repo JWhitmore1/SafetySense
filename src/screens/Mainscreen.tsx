@@ -3,8 +3,9 @@ import icons from '../data/icons';
 import { View, Text, StyleSheet, Image } from 'react-native';
 import { useRoute } from '@react-navigation/native';
 import { RouteProp } from '@react-navigation/native';
-import { useBleServer } from '../hooks/useBleData';
+import { useBleServer } from '../hooks/useBleServer';
 import { DataCircle } from '../components/DataCircle';
+import { useData } from '../hooks/useData';
 
 type RootStackParamList = {
   MainScreen: {
@@ -18,21 +19,20 @@ type MainScreenRouteProp = RouteProp<RootStackParamList, 'MainScreen'>;
 
 const MainScreen = () => {
   const route = useRoute<MainScreenRouteProp>();
+  const { loading, data } = useData();
   const { title = 'No Data', message = 'No message available', category } = route.params || {};
-  
-  const { temperature, noiseLevel, airQuality, uvIndex } = useBleServer(true);
 
   const renderDataCircle = () => {
     
     switch (category) {
       case 'Temperature':
-        return <DataCircle title='' value={parseFloat(temperature ?? '0')} maxValue={35} threshold={30} />;
+        return <DataCircle title='' value={data?.temperature} maxValue={35} threshold={30} />;
       case 'Air Quality':
-        return <DataCircle title='' value={parseFloat(airQuality ?? '0')} maxValue={100} threshold={60} />;
+        return <DataCircle title='' value={data?.airQuality} maxValue={100} threshold={60} />;
       case 'Sound Level':
-        return <DataCircle title='' value={parseFloat(noiseLevel ?? '0')} maxValue={130} threshold={110} />;
+        return <DataCircle title='' value={data?.noiseLevel} maxValue={130} threshold={110} />;
       case 'UV Index':
-        return <DataCircle title='' value={parseFloat(uvIndex ?? '0')} maxValue={14} threshold={8} />;
+        return <DataCircle title='' value={0} maxValue={14} threshold={8} />;
       default:
         return null;
     }

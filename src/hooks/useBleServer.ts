@@ -2,8 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { scanDevices } from '../utils/Scan';
 import { connectDevice } from '../utils/Connect';
 import BleManager, { Peripheral } from 'react-native-ble-manager';
-import { ServerData } from '../data/ServerData';
-import { useData } from './useData';
+import { storeData } from '../utils/dataUtils';
 
 const READ_INTERVAL = 5_000; //time between value reads in ms
 const DEVICE_NAME = "SafetySense"
@@ -18,15 +17,20 @@ const byteArrayToString = (array: number[]) => {
   return result;
 }
 
-export const useBleServer = (mockData: boolean) : ServerData => {
+export const useBleServer = (mockData: boolean) : boolean => {
   const peripheralUUID = useRef<string>('5778f008-5ad3-d8d1-01b1-59baf2a6cafb');
-  const [getData, setData] = useData();
   const [isConnected, setIsConnected] = useState<boolean>(false);
   const [dataAvailable, setDataAvailable] = useState<boolean>(false);
   const [peripherals, setPeripherals] = useState<Map<string, Peripheral>>();
-  const [temp, setTemp] = useState<number>(0);
-  const [noise, setNoise] = useState<number>(0);
-  const [air, setAir] = useState<number>(0);
+
+  if (mockData) {
+    storeData({
+      temperature: 28,
+      noiseLevel: 45,
+      airQuality: 120,
+    });
+    return true;
+  }
 
   const isDeviceConnected = async () => {
     return await BleManager.isPeripheralConnected(peripheralUUID.current, []);
@@ -50,10 +54,13 @@ export const useBleServer = (mockData: boolean) : ServerData => {
 
         console.log("data: " + splitData); 
         
-        setTemp(parseFloat(splitData[0]));
-        setNoise(parseFloat(splitData[1]));
-        setAir(parseFloat(splitData[2]));
         setDataAvailable(true);
+        // store data locally
+        storeData({
+          temperature: parseFloat(splitData[0]),
+          noiseLevel: parseFloat(splitData[1]),
+          airQuality: parseFloat(splitData[2]),
+        });
       }
     }
   }
@@ -81,30 +88,12 @@ export const useBleServer = (mockData: boolean) : ServerData => {
           setIsConnected(connected);
         }).catch((error) => {
           console.log("Error while connecting: " + error);
+          setIsConnected(false);
         });
       }
     }
   }, [peripherals]);
 
-  if(mockData) {
-    return { 
-      dataAvailable: true, 
-      data: {
-        temperature: 26.50, 
-        noiseLevel: 78.9, 
-        airQuality: 25, 
-        uvIndex: 2 
-      }
-    }
-  }
-
-  return { 
-    dataAvailable,
-    data: {
-      temperature: temp, 
-      noiseLevel: noise, 
-      airQuality: air 
-    } 
-  };
+  return dataAvailable;
 }
 

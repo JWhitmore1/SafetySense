@@ -9,3 +9,5 @@ export interface SensorData {
   airQuality: number 
   uvIndex?: number
 }
+
+export type dataCategory = 'Temperature' | 'Air Quality' | 'Sound Level'

@@ -1,8 +1,14 @@
 import Navigator from './src/navigation/Navigator';
+import { useBleServer } from './src/hooks/useBleServer';
+import ConnectingScreen from './src/screens/ConnectingScreen';
 
 const App = () => {
-  return (
+  const dataAvailable = useBleServer(false);
+
+  return dataAvailable ? (
     <Navigator />
+  ) : (
+    <ConnectingScreen />
   );
 };
 
