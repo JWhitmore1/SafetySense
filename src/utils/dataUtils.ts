@@ -1,5 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { SensorData } from '../data/ServerData';
+import { SensorData } from '../data/sensorTypes';
 
 export const storeData = async (value: SensorData) => {
   try {

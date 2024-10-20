@@ -28,6 +28,7 @@ export const useBleServer = (mockData: boolean) : boolean => {
       temperature: 28,
       noiseLevel: 45,
       airQuality: 120,
+      humidity: 67,
     });
     return true;
   }
@@ -60,6 +61,7 @@ export const useBleServer = (mockData: boolean) : boolean => {
           temperature: parseFloat(splitData[0]),
           noiseLevel: parseFloat(splitData[1]),
           airQuality: parseFloat(splitData[2]),
+          humidity: parseFloat(splitData[3]),
         });
       }
     }

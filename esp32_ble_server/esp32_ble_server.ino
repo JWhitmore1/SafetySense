@@ -79,6 +79,7 @@ float db;
 int gasVoltage;
 
 int temperature;
+int humidity;
 
 void alarmBeep() {
   if (alarmOn) {
@@ -120,17 +121,17 @@ void loop() {
     if (db > 120) db = 120;
     largestSoundVoltage = 0;
 
-    temperature = dht11.readTemperature();
+    dht11.readTemperatureHumidity(temperature, humidity);
     gasVoltage = analogRead(GAS_SENSOR_PIN);
 
-    Serial.println(String(temperature) + "°c, " + String(db) + "db, " + String(gasVoltage));
+    Serial.println(String(temperature) + "°c, " + String(db) + "db, " + String(gasVoltage) + ", " + String(humidity) + "%");
 
     if (!booting && (db > 120 || temperature > 35 || gasVoltage > 1000)) {
       alarmOn = true;
     }
 
     // update server 
-    pCharacteristic->setValue(String(temperature) + "," + String(db) + "," + String(gasVoltage));
+    pCharacteristic->setValue(String(temperature) + "," + String(db) + "," + String(gasVoltage) + "," + String(humidity));
   }
 
   mainCounter++;

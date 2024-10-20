@@ -1,8 +1,8 @@
 import PushNotificationIOS, { NotificationRequest } from "@react-native-community/push-notification-ios";
-import { dataCategory } from "../data/ServerData";
+import { warningCategories } from "../data/sensorTypes";
 import icons from "../data/icons";
 
-export const notify = (category: dataCategory) => {
+export const notify = (category: warningCategories) => {
   const request: NotificationRequest = {
     id: `${category}-warning`,
     title: `${category} warning`,

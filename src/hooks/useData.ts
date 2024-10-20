@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { getData } from "../utils/dataUtils";
-import { SensorData } from "../data/ServerData";
+import { SensorData } from "../data/sensorTypes";
 
 export const useData = () => {
   const [loading, setLoading] = useState(true);

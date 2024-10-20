@@ -62,7 +62,7 @@ const Dashboard = () => {
         <DataCircle title='Temperature' value={data?.temperature} maxValue={35} threshold={30} />
         <DataCircle title='Noise Level' value={data?.noiseLevel} maxValue={130} threshold={110} />
         <DataCircle title='Air Quality' value={data?.airQuality} maxValue={1600} threshold={1400} />
-        <DataCircle title='UV Radiation' value={7} maxValue={14} threshold={8} />
+        <DataCircle title='Humidity' value={data?.humidity} maxValue={100} />
       </View>
     </View>
   )

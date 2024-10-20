@@ -7,7 +7,7 @@ import icons from '../data/icons';
 import SettingsScreen from '../screens/Setting';
 import DetailScreen from '../screens/Detail';
 import MainScreen from '../screens/Mainscreen';
-import { SensorData } from '../data/ServerData';
+import { SensorData } from '../data/sensorTypes';
 
 interface TabIconProps {
   focused: boolean;

@@ -6,7 +6,7 @@ type DataCircleProps = {
   title: string;
   value: number | undefined;
   maxValue: number;
-  threshold: number;
+  threshold?: number;
 }
 
 const style = StyleSheet.create({
@@ -61,10 +61,10 @@ export const DataCircle = ({title, value, maxValue, threshold}: DataCircleProps)
   const percentage = ( value / maxValue ) * 100;
   const strokePct = ((100 - percentage) * circ) / 100; 
   
-  const thresholdPct = (threshold / maxValue) * 360; 
+  const thresholdPct = ((threshold ?? 0 )/ maxValue) * 360; 
 
   const railColour = "#ededed"
-  const progressColour = value < threshold ? "#6cf4b4" : "#FF0303";
+  const progressColour = value < (threshold ?? value + 1) ? "#6cf4b4" : "#FF0303";
   const thresholdColour = "#818181";
 
   return (
@@ -103,7 +103,8 @@ export const DataCircle = ({title, value, maxValue, threshold}: DataCircleProps)
               strokeDasharray={circ}
             />
             {/* threshold marker */}
-            <Circle 
+            {threshold &&
+              <Circle 
               r={r} 
               cx={r} 
               cy={r} 
@@ -113,7 +114,8 @@ export const DataCircle = ({title, value, maxValue, threshold}: DataCircleProps)
               strokeDasharray={circ}
               strokeDashoffset={r*6.22}
               transform={`rotate(${thresholdPct} ${r} ${r})`}
-            />
+              />
+            }
           </G>
           <View style={style.valueContainer}>
             <Text style={style.tempValue}>{value}</Text>
