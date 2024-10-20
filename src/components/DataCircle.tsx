@@ -6,16 +6,20 @@ type DataCircleProps = {
   title: string;
   value: number | undefined;
   maxValue: number;
-  threshold?: number;
+  unit?: string;
+  threshold?: number | undefined;
 }
 
 const style = StyleSheet.create({
   container: {
     width: "45%",
-    borderWidth: 1,
-    borderColor: "#000",
+    height: 220,
     borderRadius: 20,
-    marginBottom: 10,
+    backgroundColor: "#FFF",
+    shadowColor: "#000",
+    shadowRadius: 6,
+    shadowOffset: {width: 0, height: 10},
+    shadowOpacity: 0.5
   },
   title: {
     textAlign: "center",
@@ -37,7 +41,7 @@ const style = StyleSheet.create({
   }
 })
 
-export const DataCircle = ({title, value, maxValue, threshold}: DataCircleProps) => {
+export const DataCircle = ({title, value, maxValue, unit, threshold}: DataCircleProps) => {
   const r = 83;
 
   if (value == undefined) {
@@ -68,7 +72,7 @@ export const DataCircle = ({title, value, maxValue, threshold}: DataCircleProps)
   const thresholdColour = "#818181";
 
   return (
-    <View style={style.container}>
+    <View style={title ? style.container : {...style.container, height: r*2, width: r*2}}>
       {title && 
         <Text style={style.title}>{title}</Text>
       }
@@ -118,7 +122,7 @@ export const DataCircle = ({title, value, maxValue, threshold}: DataCircleProps)
             }
           </G>
           <View style={style.valueContainer}>
-            <Text style={style.tempValue}>{value}</Text>
+            <Text style={style.tempValue}>{Math.round(value)}{unit}</Text>
           </View>
         </Svg>
       </View>
