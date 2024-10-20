@@ -6,24 +6,26 @@ import icons from '../data/icons';
 const HomeScreen: React.FC = () => {
   return (
     <View style={styles.container}>
-      {/* Logo */}
-      <Image 
-        source={(icons.placeholder)} 
-        style={styles.logo} 
-        resizeMode="contain"
-      />
-
       {/* Welcome Text */}
       <Text style={styles.welcomeText}>Welcome to SafetySense!</Text>
 
       {/* Subtitle */}
       <Text style={styles.subtitle}>Stay safe with real-time hazard alerts.</Text>
 
-      {/* Placeholder for the image below the text */}
-      <View style={styles.imagePlaceholder} />
+      {/* Logo */}
+      <Image 
+        source={(icons.logo)} 
+        style={styles.logo} 
+        resizeMode="contain"
+      />
 
       {/* Start Button */}
-      <Button title="Start" onPress={() => console.log('Start pressed')} />
+      <Button 
+        title="Start" 
+        onPress={() => console.log('Start pressed')} 
+        style={styles.button} 
+        textStyle={{ fontSize: 20 }} 
+      />
     </View>
   );
 };
@@ -37,27 +39,27 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   logo: {
-    width: 100,
-    height: 100,
+    width: 200,
+    height: 200,
     marginBottom: 20,
   },
   welcomeText: {
-    fontSize: 24,
+    fontSize: 30,
     fontWeight: 'bold',
     textAlign: 'center',
     marginBottom: 10,
   },
   subtitle: {
-    fontSize: 16,
+    fontSize: 20,
     textAlign: 'center',
     marginBottom: 20,
     color: '#555',
   },
-  imagePlaceholder: {
-    width: 300,
-    height: 150,
-    backgroundColor: '#ddd',
-    marginBottom: 40,
+  button: {
+    backgroundColor: '#34A253',
+    padding: 10,
+    borderRadius: 5,
+    alignItems: 'center',
   },
 });
 
