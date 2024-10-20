@@ -7,6 +7,7 @@ import icons from '../data/icons';
 import SettingsScreen from '../screens/Setting';
 import DetailScreen from '../screens/Detail';
 import MainScreen from '../screens/Mainscreen';
+import { SensorData } from '../data/ServerData';
 
 interface TabIconProps {
   focused: boolean;
@@ -80,7 +81,7 @@ const Navigator = () => {
           component={SettingsScreen}
           options={() => tabOptions(icons.setting, 'Settings')}
         />
-      <Tab.Screen
+        <Tab.Screen
           name="MainScreen"
           component={MainScreen}
           options={{ tabBarButton: () => null }} // hide button

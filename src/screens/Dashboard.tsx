@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, Image } from 'react-native';
-import { useBleServer } from '../hooks/useBleData';
 import { DataCircle } from '../components/DataCircle';
+import { useBleServer } from '../hooks/useBleData';
 import icons from '../data/icons';
+import HomeScreen from './Homepage';
+import { SensorData, ServerData } from '../data/ServerData';
 
 /**
  * TODO: use jsonfile package to store and read thresholds
@@ -38,9 +40,10 @@ const style = StyleSheet.create({
 })
 
 const Dashboard = () => {
-  const { isConnected, temperature, noiseLevel, airQuality, uvIndex } = useBleServer(true);
+  const { dataAvailable, data }: ServerData = useBleServer(false);
+  const { temperature, noiseLevel, airQuality }: SensorData = data;
 
-  return (
+  return dataAvailable ? (
     <View style={style.mainContainer}>
       <View style={style.titleContainer}>
         <Image 
@@ -53,12 +56,14 @@ const Dashboard = () => {
         <Text style={style.title}> Safe </Text>
       </View>
       <View style={style.dialContainer}>
-        <DataCircle title='Temperature' value={parseFloat(temperature ?? '0')} maxValue={35} threshold={30} />
-        <DataCircle title='Noise Level' value={parseFloat(noiseLevel ?? '0')} maxValue={130} threshold={110} />
-        <DataCircle title='Air Quality' value={parseFloat(airQuality ?? '0')} maxValue={100} threshold={60} />
-        <DataCircle title='UV Radiation' value={parseFloat(uvIndex ?? '0')} maxValue={14} threshold={8} />
+        <DataCircle title='Temperature' value={temperature} maxValue={35} threshold={30} />
+        <DataCircle title='Noise Level' value={noiseLevel} maxValue={130} threshold={110} />
+        <DataCircle title='Air Quality' value={airQuality} maxValue={1600} threshold={1400} />
+        <DataCircle title='UV Radiation' value={7} maxValue={14} threshold={8} />
       </View>
     </View>
+  ) : (
+    <HomeScreen />
   );
 }
 
