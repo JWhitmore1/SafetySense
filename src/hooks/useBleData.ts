@@ -3,6 +3,7 @@ import { scanDevices } from '../utils/Scan';
 import { connectDevice } from '../utils/Connect';
 import BleManager, { Peripheral } from 'react-native-ble-manager';
 import { ServerData } from '../data/ServerData';
+import { useData } from './useData';
 
 const READ_INTERVAL = 5_000; //time between value reads in ms
 const DEVICE_NAME = "SafetySense"
@@ -19,6 +20,7 @@ const byteArrayToString = (array: number[]) => {
 
 export const useBleServer = (mockData: boolean) : ServerData => {
   const peripheralUUID = useRef<string>('5778f008-5ad3-d8d1-01b1-59baf2a6cafb');
+  const [getData, setData] = useData();
   const [isConnected, setIsConnected] = useState<boolean>(false);
   const [dataAvailable, setDataAvailable] = useState<boolean>(false);
   const [peripherals, setPeripherals] = useState<Map<string, Peripheral>>();
@@ -46,7 +48,7 @@ export const useBleServer = (mockData: boolean) : ServerData => {
         const dataString = byteArrayToString(data);
         const splitData = dataString.split(',');
 
-        console.log("data: " + splitData);
+        console.log("data: " + splitData); 
         
         setTemp(parseFloat(splitData[0]));
         setNoise(parseFloat(splitData[1]));

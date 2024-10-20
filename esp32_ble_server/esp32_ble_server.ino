@@ -64,6 +64,7 @@ void setup() {
 
 int mainCounter = 0;
 
+bool booting = true;
 bool alarmOn = false;
 bool toneOn = false;
 int alarmFreq = 550;
@@ -115,20 +116,16 @@ void loop() {
 
   if (mainCounter % 2000 == 0) {
     db = dbRef + (soundSensitivity * (20 * log10((largestSoundVoltage / vRef))));
-    if (db < 38) db = 22.24;
+    if (db < 38) db = 31.14;
     if (db > 120) db = 120;
-    Serial.print(db);
-    Serial.println(" dB");
     largestSoundVoltage = 0;
 
     temperature = dht11.readTemperature();
-    Serial.print(temperature);
-    Serial.println(" °c");
-
     gasVoltage = analogRead(GAS_SENSOR_PIN);
-    Serial.println(gasVoltage);
 
-    if (db > 120 || temperature > 35 || gasVoltage > 1000) {
+    Serial.println(String(temperature) + "°c, " + String(db) + "db, " + String(gasVoltage));
+
+    if (booting && (db > 120 || temperature > 35 || gasVoltage > 1000)) {
       alarmOn = true;
     }
 
@@ -139,6 +136,7 @@ void loop() {
   mainCounter++;
   // reset counter every 10000 loops (~10s)
   if (mainCounter >= 10000) {
+    booting = false;
     mainCounter = 0;
   }
 

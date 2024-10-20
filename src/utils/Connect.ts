@@ -1,4 +1,3 @@
-import { useRef } from 'react';
 import BleManager, { BleState, }  from 'react-native-ble-manager';
 import { NativeModules, NativeEventEmitter, Platform } from "react-native";
 
