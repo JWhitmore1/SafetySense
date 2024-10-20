@@ -31,7 +31,7 @@ const MainScreen = () => {
         return <DataCircle title='' value={data?.airQuality} maxValue={100} threshold={60} />;
       case 'Sound Level':
         return <DataCircle title='' value={data?.noiseLevel} maxValue={130} threshold={110} />;
-      case 'UV Index':
+      case 'Humidity':
         return <DataCircle title='' value={0} maxValue={14} threshold={8} />;
       default:
         return null;
@@ -46,8 +46,8 @@ const MainScreen = () => {
         return icons.air;
       case 'Sound Level':
         return icons.sound;
-      case 'UV Index':
-        return icons.uv;
+      case 'Humidity':
+        return icons.hum;
       default:
         return null;
     }
