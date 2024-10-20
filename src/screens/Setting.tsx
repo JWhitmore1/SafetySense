@@ -71,6 +71,8 @@ const SettingsScreen = () => {
           value={airQuality}
           onChangeText={setAirQuality}
         />
+        <Text style={styles.unit}>AQI</Text> 
+
       </View>
 
       <View style={styles.inputRow}>
@@ -83,6 +85,8 @@ const SettingsScreen = () => {
           value={uv}
           onChangeText={setUv}
         />
+        <Text style={styles.unit}>UVI</Text> 
+
       </View>
     </View>
   );
@@ -94,12 +98,14 @@ const styles = StyleSheet.create({
     padding: 20,
     backgroundColor: '#fff',
     justifyContent: 'flex-start',
+    paddingVertical: 20, 
+    paddingHorizontal: 30, 
   },
   heading: {
-    fontSize: 18,
+    fontSize: 20,
     fontWeight: 'bold',
     marginBottom: 10,
-    marginTop: 40,
+    marginTop: 50,
   },
   row: {
     flexDirection: 'row',
@@ -113,7 +119,7 @@ const styles = StyleSheet.create({
     marginVertical: 10,
   },
   label: {
-    fontSize: 16,
+    fontSize: 18,
     flex: 1,
   },
   icon: {
@@ -130,8 +136,9 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
   unit: {
-    fontSize: 16,
+    fontSize: 15,
     marginLeft: 5,
+    width:30,
   }
 });
 

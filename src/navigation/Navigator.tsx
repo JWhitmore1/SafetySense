@@ -12,22 +12,23 @@ import { SensorData } from '../data/sensorTypes';
 interface TabIconProps {
   focused: boolean;
   icon: ImageSourcePropType;
+  iconFilled: ImageSourcePropType;
   label: string;
 }
 
-const TabIcon = ({ focused, icon, label }: TabIconProps) => {
+const TabIcon = ({ focused, icon, iconFilled, label }: TabIconProps) => {
   return (
     <View
       style={{
         alignItems: 'center',
         justifyContent: 'center',
-        height: 60,
+        height: 80,
         width: 80,
-        marginBottom: 5,
-        backgroundColor: focused ? '#e0e0e0' : 'transparent',
+        marginBottom: 0,
+        backgroundColor: 'transparent',
       }}>
       <Image
-        source={icon}
+        source={focused ? iconFilled : icon} // Use filled icon if focused
         resizeMode="contain"
         style={{
           width: 24,
@@ -39,10 +40,10 @@ const TabIcon = ({ focused, icon, label }: TabIconProps) => {
   );
 };
 
-const tabOptions = (icon: ImageSourcePropType, label: string) => {
+const tabOptions = (icon: ImageSourcePropType, iconFilled: ImageSourcePropType, label: string) => {
   return {
     tabBarIcon: ({ focused }: { focused: boolean }) => (
-      <TabIcon focused={focused} icon={icon} label={label} />
+      <TabIcon focused={focused} icon={icon} iconFilled={iconFilled} label={label} />
     ),
     headerTitleStyle: {
       fontSize: 18,
@@ -50,8 +51,8 @@ const tabOptions = (icon: ImageSourcePropType, label: string) => {
     },
     tabBarStyle: {
       backgroundColor: '#f0f0f0',
-      height: 60,
-      padding: 5,
+      height: 80,
+      padding: 14,
     },
     tabBarLabel: () => null,
   };
@@ -69,17 +70,17 @@ const Navigator = () => {
         <Tab.Screen
           name="Dashboard"
           component={Dashboard}
-          options={() => tabOptions(icons.dashboard, 'Dashboard')}
+          options={() => tabOptions(icons.dashboard, icons.dashboardSolid, 'Dashboard')} 
         />
         <Tab.Screen
           name="Detail"
           component={DetailScreen}
-          options={() => tabOptions(icons.detail, 'Detail')}
+          options={() => tabOptions(icons.detail, icons.detailSolid, 'Detail')} 
         />
         <Tab.Screen
           name="Settings"
           component={SettingsScreen}
-          options={() => tabOptions(icons.setting, 'Settings')}
+          options={() => tabOptions(icons.setting, icons.settingSolid, 'Settings')}
         />
         <Tab.Screen
           name="MainScreen"
