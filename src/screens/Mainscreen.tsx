@@ -74,6 +74,7 @@ const MainScreen = () => {
 
 const styles = StyleSheet.create({
   container: {
+    backgroundColor: '#fff',
     flex: 1,
     justifyContent: 'flex-start',
     alignItems: 'center',
