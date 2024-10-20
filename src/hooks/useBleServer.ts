@@ -4,7 +4,7 @@ import { connectDevice } from '../utils/Connect';
 import BleManager, { Peripheral } from 'react-native-ble-manager';
 import { storeData } from '../utils/dataUtils';
 
-const READ_INTERVAL = 5_000; //time between value reads in ms
+const READ_INTERVAL = 2_000; //time between value reads in ms
 const DEVICE_NAME = "SafetySense"
 const SERVICE_UUID = '8b712be9-e6cd-4356-b703-beca1b406f5c';
 const CHARACTERISTIC_UUID = '137700a2-86a4-4f8f-8864-b1839db64ef6';
@@ -82,8 +82,8 @@ export const useBleServer = (mockData: boolean) : boolean => {
 
   useEffect(() => {
     if (peripherals) {
-      peripheralUUID.current = Array.from(peripherals.values())
-        .find((peripheral) => peripheral.name = DEVICE_NAME)?.id ?? '';
+      // peripheralUUID.current = Array.from(peripherals.values())
+      //   .find((peripheral) => peripheral.name = DEVICE_NAME)?.id ?? '';
       
       if (!isConnected) {
         connectDevice(peripheralUUID.current).then((connected) => {

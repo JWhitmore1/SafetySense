@@ -4,7 +4,7 @@ import BleManager, {Peripheral} from 'react-native-ble-manager';
 const BleManagerModule = NativeModules.BleManager;
 const bleManagerEmitter = new NativeEventEmitter(BleManagerModule);
 
-const SECONDS_TO_SCAN = 10;
+const SECONDS_TO_SCAN = 5;
 const ALLOW_DUPLICATE = false;
 
 const scanNearbyDevices = (filter: string[]): Promise<Map<string, Peripheral>> => {
