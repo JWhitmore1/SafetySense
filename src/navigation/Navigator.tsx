@@ -1,10 +1,12 @@
 import React from 'react';
-import {View, Image, Text, ImageSourcePropType} from 'react-native';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import { View, Image, Text, ImageSourcePropType } from 'react-native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Dashboard from '../screens/Dashboard';
-import {NavigationContainer} from '@react-navigation/native';
+import { NavigationContainer } from '@react-navigation/native';
 import icons from '../data/icons';
-import Detail from '../screens/Detail';
+import SettingsScreen from '../screens/Setting';
+import DetailScreen from '../screens/Detail';
+import MainScreen from '../screens/Mainscreen';
 import { SensorData } from '../data/ServerData';
 
 interface TabIconProps {
@@ -13,7 +15,7 @@ interface TabIconProps {
   label: string;
 }
 
-const TabIcon = ({focused, icon, label}: TabIconProps) => {
+const TabIcon = ({ focused, icon, label }: TabIconProps) => {
   return (
     <View
       style={{
@@ -32,14 +34,14 @@ const TabIcon = ({focused, icon, label}: TabIconProps) => {
           height: 24,
         }}
       />
-      <Text style={{fontSize: 12, color: 'black', marginTop: 4}}>{label}</Text>
+      <Text style={{ fontSize: 12, color: 'black', marginTop: 4 }}>{label}</Text>
     </View>
   );
 };
 
 const tabOptions = (icon: ImageSourcePropType, label: string) => {
   return {
-    tabBarIcon: ({focused}: {focused: boolean}) => (
+    tabBarIcon: ({ focused }: { focused: boolean }) => (
       <TabIcon focused={focused} icon={icon} label={label} />
     ),
     headerTitleStyle: {
@@ -67,17 +69,22 @@ const Navigator = () => {
         <Tab.Screen
           name="Dashboard"
           component={Dashboard}
-          options={() => tabOptions(icons.placeholder, 'Dashboard')}
+          options={() => tabOptions(icons.dashboard, 'Dashboard')}
         />
         <Tab.Screen
           name="Detail"
-          component={Detail}
-          options={() => tabOptions(icons.placeholder, 'Detail')}
+          component={DetailScreen}
+          options={() => tabOptions(icons.detail, 'Detail')}
         />
         <Tab.Screen
           name="Settings"
-          component={Dashboard}
-          options={() => tabOptions(icons.placeholder, 'Settings')}
+          component={SettingsScreen}
+          options={() => tabOptions(icons.setting, 'Settings')}
+        />
+        <Tab.Screen
+          name="MainScreen"
+          component={MainScreen}
+          options={{ tabBarButton: () => null }} // hide button
         />
       </Tab.Navigator>
     </NavigationContainer>
