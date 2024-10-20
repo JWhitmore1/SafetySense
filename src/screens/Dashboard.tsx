@@ -5,11 +5,6 @@ import icons from '../data/icons';
 import { useData } from '../hooks/useData';
 import { notify } from '../utils/notify';
 
-/**
- * TODO: use jsonfile package to store and read thresholds
- * then check each threshold to trigger warnings
- */
-
 const style = StyleSheet.create({
   mainContainer: {
     backgroundColor: "#FFF",
@@ -60,8 +55,8 @@ const Dashboard = () => {
       </View>
       <View style={style.dialContainer}>
         <DataCircle title='Temperature' value={data?.temperature} maxValue={35} threshold={30} />
-        <DataCircle title='Noise Level' value={data?.noiseLevel} maxValue={130} threshold={110} />
-        <DataCircle title='Air Quality' value={data?.airQuality} maxValue={1600} threshold={1400} />
+        <DataCircle title='Noise Level' value={data?.noiseLevel} maxValue={130} threshold={120} />
+        <DataCircle title='Air Quality' value={data?.airQuality} maxValue={100} threshold={50} />
         <DataCircle title='Humidity' value={data?.humidity} maxValue={100} />
       </View>
     </View>
